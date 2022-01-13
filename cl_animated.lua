@@ -19,6 +19,11 @@ function loadTxd(model, liveryDict, gif)
     AddReplaceTexture(model, liveryDict, 'duiTxd', 'duiTex')
 end
 
+
+function EnumerateVehicles()
+	return ipairs(GetGamePool('CVehicle'))
+end
+
 function MainThread()
 	for k, v in pairs(animatedCars) do
 		if k then
@@ -28,10 +33,10 @@ function MainThread()
 	CreateThread(function()
 		while loaded == false do
 			Wait(2500)
-			for veh in EnumerateVehicles() do
-				local dist = #(GetEntityCoords(veh) - GetEntityCoords(PlayerPedId()))
+			for k, v in pairs(GetGamePool('CVehicle')) do
+				local dist = #(GetEntityCoords(v) - GetEntityCoords(PlayerPedId()))
 				if dist <= 150 then
-					local model = GetEntityModel(veh)
+					local model = GetEntityModel(v)
 					if animatedCars[model] then
 						local yeet = animatedCars[model]
 						if not yeet.active then
